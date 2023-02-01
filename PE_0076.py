@@ -1,6 +1,8 @@
 # Euler 76
 
 from functools import cache
+from time import perf_counter as tm
+import sys
 
 """
 It is possible to write five as a sum in exactly six different ways:
@@ -90,5 +92,29 @@ def E76b(n,m=0):
 
 	return ct
 
-r = E76b(100)
+
+n = 300
+sys.setrecursionlimit(n*2)
+
+t = tm()
+r = E76b(n)
 print(r)
+print(tm()-t)
+
+
+def E76c(n):
+
+	ct = [1]+[0]*n
+
+	for i in range(1,n):
+		for j in range(i, n+1):
+			ct[j] += ct[j-i]
+
+	return ct[-1]
+
+n = 300
+
+t = tm()
+r = E76c(n)
+print(r)
+print(tm()-t)
