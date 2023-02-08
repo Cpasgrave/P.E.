@@ -93,8 +93,8 @@ def E76b(n,m=0):
 	return ct
 
 
-n = 300
-sys.setrecursionlimit(n*2)
+n = 100
+sys.setrecursionlimit(n*3)
 
 t = tm()
 r = E76b(n)
@@ -105,16 +105,82 @@ print(tm()-t)
 def E76c(n):
 
 	ct = [1]+[0]*n
-
 	for i in range(1,n):
 		for j in range(i, n+1):
 			ct[j] += ct[j-i]
 
 	return ct[-1]
 
-n = 300
+n = 100
 
 t = tm()
 r = E76c(n)
 print(r)
 print(tm()-t)
+
+
+
+# nouvelle approche:
+"""
+    1   2   3   4   5   6   7 (i)   total
+ 1  1                             1
+ 2  1   1                         2
+ 3  1   1   1                     3
+ 4  1   2   1   1                 5
+ 5  1   2   2   1   1             7
+ 6  1   3   3   2   1   1        11
+ 7  1   3   4   3   2   1   1    15
+ 8  ....
+(n)
+
+P(n):
+x = n-i
+if x<=i: ith term = total P(x)
+else:    ith term = sum of first i terms of P(x)
+
+(The nth term is always = 1, i.e. when x=0)
+"""
+
+# @cache
+# def PE76d(n,k):
+# 	if n==k: return PE76d(n,k-1)+1
+# 	if k==0 or n<0: return 0
+# 	if n==0: return 1
+# 	return PE76d(n,k-1) + PE76d(n-k,k)
+
+# n = 100
+
+# t = tm()
+# r = PE76d(n,n)
+# print(r)
+# print(tm()-t)
+
+sys.setrecursionlimit(10000)
+
+@cache
+def PE76e(n):
+	# méthode Euler https://en.wikipedia.org/wiki/Partition_(number_theory)
+	if n<0: return 0
+	if n in {0,1}: return 1
+	s = 0
+	m = n
+	d1 = d2 = 1
+	sign = 1 #(0:-,1:+)
+	while m>0:
+		m -= d1
+		p = PE76e(m)
+		m -= d2
+		p += PE76e(m)
+		s = s+(p if sign else -p)
+		sign = 1-sign
+		d1 += 2
+		d2 += 1
+	return s
+
+t = tm()
+r = PE76e(n)
+print(r)
+print(tm()-t)
+
+
+
