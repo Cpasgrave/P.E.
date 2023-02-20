@@ -1,6 +1,6 @@
 """
 Counting Sundays
-Problem 19
+
 You are given the following information, but you may prefer to do some research for yourself.
 
 1 Jan 1900 was a Monday.
