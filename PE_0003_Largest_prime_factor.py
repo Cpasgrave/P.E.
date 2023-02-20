@@ -1,6 +1,11 @@
 #  Largest prime factor
 
-# for any N number, return its largest prime factor
+"""
+The prime factors of 13195 are 5, 7, 13 and 29.
+
+What is the largest prime factor of the number 600851475143 ?
+"""
+
 
 def primesTo(n):
 	sieve=[1]*(n+1)
